@@ -10,3 +10,17 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.loaderContainer {
+  height: 20px;
+  width: 100%;
+}
+
+.error {
+  color: #010101;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+}

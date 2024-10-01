@@ -1,11 +1,12 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css'
 import * as Yup from "yup";
 import MaskedInput from 'react-text-mask';
 import clsx from "clsx";
-import { useDispatch, useSelector } from "react-redux";
-import { selectContacts, addContact } from "../../redux/contactsSlice";
+import { useDispatch, useSelector} from "react-redux";
+import { addContact } from "../../redux/contactsOps";
+
+import {selectContacts  } from "../../redux/contactsSlice";
 
 const contactSchema = Yup.object().shape({
     name: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Please fill in the field"),
@@ -20,15 +21,12 @@ const initialValues = {
 export default function ContactForm() {
 
     
-const dispatch = useDispatch();
-const contacts = useSelector(selectContacts);   
+    const dispatch = useDispatch();
+    const contacts = useSelector(selectContacts);
+  
 
-  const handleSubmit = (values, actions) => {
-  const newContact = {
-    id: nanoid(),
-    name: values.name,
-    number: values.number,
-  };
+    const handleSubmit = (values, actions) => {
+
 
   if (contacts.some(contact => contact.name === values.name)) {
     alert(`${values.name} is already in your contacts.`);
@@ -36,7 +34,7 @@ const contacts = useSelector(selectContacts);
   }
 
 
-  dispatch(addContact(newContact));
+  dispatch(addContact(values));
 
 
   actions.resetForm();
