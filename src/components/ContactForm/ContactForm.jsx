@@ -4,9 +4,11 @@ import * as Yup from "yup";
 import MaskedInput from 'react-text-mask';
 import clsx from "clsx";
 import { useDispatch, useSelector} from "react-redux";
-import { addContact } from "../../redux/contactsOps";
+import { addContact } from "../../redux/contacts/operations";
+import toast, { Toaster } from 'react-hot-toast';
+import { selectContacts } from "../../redux/contacts/selectors";
 
-import {selectContacts  } from "../../redux/contactsSlice";
+
 
 const contactSchema = Yup.object().shape({
     name: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Please fill in the field"),
@@ -29,18 +31,24 @@ export default function ContactForm() {
 
 
   if (contacts.some(contact => contact.name === values.name)) {
-    alert(`${values.name} is already in your contacts.`);
+    toast.error(`${values.name} is already in your contacts.`);
     return;
   }
 
 
-  dispatch(addContact(values));
+        dispatch(addContact(values));
+         toast.success('Contact added successfully!');
 
 
   actions.resetForm();
     };
     
     return (
+        <>
+        <Toaster
+  position="bottom-right"
+  reverseOrder={false}
+/>
         <Formik initialValues={initialValues} onSubmit={handleSubmit } validationSchema={contactSchema}>
 
             <Form className={css.form}>
@@ -78,6 +86,7 @@ export default function ContactForm() {
                 </label>
                 <button type="submit" className={css.button}>Add contact</button>
             </Form>
-        </Formik>
+            </Formik>
+            </>
     )
 }

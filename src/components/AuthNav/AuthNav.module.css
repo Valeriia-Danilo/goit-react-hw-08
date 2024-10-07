@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  gap: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.link {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ddd;
+  transition: color 0.3s ease;
+}
+
+.link:not(.active):hover {
+  color: #ddd;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.active {
+  color: #810b0b;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}

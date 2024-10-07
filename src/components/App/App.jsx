@@ -1,35 +1,40 @@
-import ContactList from '../ContactList/ContactList';
-import SearchBox from '../SearchBox/SearchBox';
-import ContactForm from '../ContactForm/ContactForm';
-import css from '../App/App.module.css';
 import "modern-normalize";
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from '../../redux/contactsOps';
-import { useSelector } from 'react-redux';
-import Loader from '../Loader/Loader';
-import { selectLoading, selectError } from '../../redux/contactsSlice';
+import { lazy, Suspense, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import Layout from "../Layout/Layout";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshUser } from "../../redux/auth/operations";
+import { selectIsRefreshing } from "../../redux/auth/selectors";
+import Loader from "../Loader/Loader";
+import css from "./App.module.css";
+import RestrictedRoute from "../RestrictedRoute";
+import PrivateRoute from "../PrivateRoute";
+
+
+const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
+const RegisterPage = lazy(() => import("../../pages/RegistrationPage/RegistrationPage"));
+const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
+const ContactsPage = lazy(() => import("../../pages/ContactsPage/ContactsPage"));
 
 export default function App() {
-    const dispatch = useDispatch();
-    const loading = useSelector(selectLoading);
-    const error = useSelector(selectError);
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing)
 
-    useEffect(() => {
-        dispatch(fetchContacts());
-    }, [dispatch]);
-    
-    return (
-        <div className={css.container}>
-            <h1 className={ css.title}>Phonebook</h1>
-            <ContactForm/>
-            <SearchBox />
-            <div className={css.loaderContainer}>
-            {loading && !error && <Loader />}
-            {error && <p className={css.error}>No contacts available</p>}
-            </div>
-            {!error && <ContactList />}
-</div>
-    )
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+  
+  return isRefreshing ? (<div className={css.loaderContainer}><Loader/></div>): (
+    <Layout>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RestrictedRoute component={<RegisterPage />} redirectTo="/"/>} />
+          <Route path="/login" element={<RestrictedRoute component={<LoginPage /> } redirectTo="/contacts"/>} />
+          <Route path="/contacts" element={<PrivateRoute component={<ContactsPage /> } redirectTo="/login"/>} />
+        </Routes>
+      </Suspense>
+    </Layout>
+  );
 }
 

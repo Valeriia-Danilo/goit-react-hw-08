@@ -1,0 +1,80 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  margin: 0 auto;
+  color: #fff;
+  position: relative;
+}
+
+.formTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: block;
+  color: #ddd;
+  position: relative;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #fff;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: rgb(13, 119, 98);
+  outline: none;
+  background-color: #4e4c4c;
+}
+
+.err {
+  color: #f88;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  transition: border-color 0.3s ease;
+}
+
+.inputError {
+  border-color: #f88;
+}
+
+.inputError:focus {
+  border-color: #f88;
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: rgb(26, 95, 81);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+.button:hover {
+  background-color: rgb(34, 124, 106);
+}
+
+.button:active {
+  background-color: #3a8;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+}
